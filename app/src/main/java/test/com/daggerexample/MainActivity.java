@@ -2,15 +2,26 @@ package test.com.daggerexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import javax.inject.Inject;
+
+import test.com.daggerexample.model.UserDetails;
+
 public class MainActivity extends AppCompatActivity {
+
+    @Inject
+     UserDetails mUserDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ((DaggerApplication ) getApplication()).mApplicationComponent.inject(this);
+        Log.d("user id is  ", ""+mUserDetails.getId());
+
     }
 
     @Override
