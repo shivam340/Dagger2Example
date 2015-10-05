@@ -1,6 +1,7 @@
 package test.com.daggerexample;
 
 import android.app.Application;
+import android.content.Context;
 
 import test.com.daggerexample.daggerStuff.ApplicationComponent;
 import test.com.daggerexample.daggerStuff.ApplicationModule;
@@ -24,9 +25,15 @@ public class DaggerApplication extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .build();
         mUserDetails = new UserDetails(20);
+        mUserDetails.setName("Demo");
     }
 
     public UserDetails getUserDetails() {
         return mUserDetails;
     }
+
+    public static ApplicationComponent getApplicationComponent(Context context){
+        return ((DaggerApplication) context.getApplicationContext()).mApplicationComponent;
+    }
+
 }
