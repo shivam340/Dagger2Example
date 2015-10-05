@@ -33,7 +33,7 @@ Basically, it's the glue between the Module and the injection points, first by c
 
 @Inject - To request a dependency. (It can be used with a constructor argument, or a field)
 
-@Singleton and custom scopes to define singletons within specific scopes. (We recommend using custom scopes like @PerApp or @PerActivity for clarity of how long a "singleton" lives for)
+@Singleton and custom scopes to define singletons within specific scopes. (you can create custom scopes like @PerApp or @PerActivity for clarity of how long a "singleton" lives for)
 
 
 
