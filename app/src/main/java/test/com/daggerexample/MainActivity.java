@@ -1,7 +1,10 @@
 package test.com.daggerexample;
 
-import android.support.v7.app.AppCompatActivity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,15 +15,47 @@ import test.com.daggerexample.model.UserDetails;
 
 public class MainActivity extends AppCompatActivity {
 
+    private static  final  String TAG = MainActivity.class.getSimpleName();
+
     @Inject
-     UserDetails mUserDetails;
+    UserDetails mUserDetails;
+
+    @Inject
+    DaggerApplication mDaggerApplication;
+
+    @Inject
+    SharedPreferences mAppPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ((DaggerApplication ) getApplication()).mApplicationComponent.inject(this);
-        Log.d("user id is  ", ""+mUserDetails.getId());
+
+
+        Log.d("before injecting -it must be null mDaggerApplication  is ", "" + mDaggerApplication);
+
+        ((DaggerApplication) getApplication()).mApplicationComponent.inject(this);
+
+        Log.d("after injecting -  DaggerApplication  is ", "" + mDaggerApplication.getUserDetails
+                ().getName());
+
+        Log.d("user id is  ", "" + mUserDetails.getId());
+
+        if (mAppPreferences.getBoolean("first_time", true)) {
+            SharedPreferences.Editor editor = mAppPreferences.edit();
+            editor.putBoolean("first_time", false);
+            editor.apply();
+            Log.d(TAG, "This is first time");
+
+        } else {
+            Log.d(TAG, "This isn't first time");
+        }
+
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(R.id.container, new GreetFragment());
+        transaction.commit();
 
     }
 
